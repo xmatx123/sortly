@@ -1,0 +1,69 @@
+/* src/components/Header.css */
+
+.header {
+    background-color: #c1c1c1; /* Match with your body background for a cohesive look */
+    padding: 10px 0; /* Removed horizontal padding */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Stay above other elements */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px; /* Center the content */
+    margin: 0 auto;
+    padding: 0 20px; /* Provide some horizontal padding */
+  }
+  
+  .header-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* Remove underline from link */
+  }
+  
+  .logo-image {
+    height: 40px; /* Adjust based on your logo's dimensions */
+    margin-right: 10px;
+  }
+  
+  .site-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000000; /* Contrast against the header background */
+    font-family: 'Roboto', sans-serif; /* Ensure consistency with your global font */
+  }
+  
+  /* Navigation Links */
+  .header-nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-link {
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #000000; /* White text for contrast */
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #dddddd; /* Slight color change on hover */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .site-name {
+      font-size: 1.2rem;
+    }
+  
+    .nav-link {
+      margin-left: 10px;
+      font-size: 0.9rem;
+    }
+  }
+  

@@ -1,0 +1,76 @@
+/* src/pages/GamePage.css */
+
+.game-page {
+  text-align: center;
+  padding: 20px;
+  margin-top: 70px;
+}
+
+.sorted-countries-container {
+  margin-top: 20px;
+}
+
+.sorted-countries {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.sorted-countries::-webkit-scrollbar {
+  height: 8px;
+}
+
+.sorted-countries::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.insert-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Slim width */
+  height: 140px; /* Same height as the country cards */
+  margin: 5px;
+  padding: 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #e4e4e4; /* Same as secondary button */
+  color: #333;
+  cursor: pointer;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.insert-button:hover {
+  background-color: #ebecff; /* Slightly darker on hover */
+}
+
+.insert-button:focus {
+  outline: none;
+}
+
+.lower-button {
+  /* Additional styles if needed */
+}
+
+.here-button {
+  /* Additional styles if needed */
+}
+
+.higher-button {
+  /* Additional styles if needed */
+}
+
+.country-card {
+  margin: 5px;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.instructions {
+  margin-bottom: 20px;
+}

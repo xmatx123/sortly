@@ -1,0 +1,7 @@
+/* src/components/DropZone.css */
+.drop-zone {
+  border: 2px dashed #ccc;
+  width: 120px;
+  height: 150px;
+  margin: 5px;
+}

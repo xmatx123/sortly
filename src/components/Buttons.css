@@ -1,0 +1,38 @@
+/* src/components/Buttons.css */
+
+.button {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px; /* Same as country cards */
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Primary Button Style */
+.button-primary {
+  background-color: #4CAF50; /* A green color */
+  color: white;
+  border: none; /* No border */
+}
+
+.button-primary:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+  transform: translateY(-2px); /* Slight raise on hover */
+}
+
+/* Secondary Button Style */
+.button-secondary {
+  background-color: #f5f5f5; /* Same background as country cards */
+  color: #333; /* Dark text color */
+  border: 1px solid #ccc; /* Light gray border */
+}
+
+.button-secondary:hover {
+  background-color: #e0e0e0; /* Slightly darker on hover */
+  transform: translateY(-2px); /* Slight raise on hover */
+}

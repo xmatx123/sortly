@@ -1,0 +1,36 @@
+/* src/pages/GameOverPage.css */
+
+.game-over-page {
+  text-align: center;
+  padding: 20px;
+  margin-top: 70px;
+}
+
+.game-over-page h2 {
+  margin-bottom: 20px;
+}
+
+.game-over-page p {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.incorrect-country, .correct-order {
+  margin-top: 20px;
+}
+
+.country-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.game-over-buttons {
+  margin-top: 30px;
+}
+
+.game-over-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
