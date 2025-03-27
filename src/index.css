@@ -1,6 +1,8 @@
 /* src/index.css */
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -13,7 +15,7 @@ html, body {
 
 body {
   font-family: 'Nunito Sans', sans-serif;
-  background-color: #baa6a6;
+  background-color: #ffffff;
   color: #333;
 }
 

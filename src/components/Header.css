@@ -1,7 +1,7 @@
 /* src/components/Header.css */
 
 .header {
-    background-color: #c1c1c1; /* Match with your body background for a cohesive look */
+    background-color: #ffffff; /* Match with your body background for a cohesive look */
     padding: 10px 0; /* Removed horizontal padding */
     position: fixed;
     top: 0;
@@ -55,15 +55,76 @@
     color: #dddddd; /* Slight color change on hover */
   }
   
+  /* Mobile Menu Button */
+  .menu-button {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    color: #000000;
+  }
+  
   /* Responsive Design */
   @media (max-width: 768px) {
     .site-name {
       font-size: 1.2rem;
     }
   
+    .logo-image {
+      height: 35px;
+    }
+  
+    .menu-button {
+      display: block;
+    }
+  
+    .header-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: #ffffff;
+      flex-direction: column;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    .header-nav.active {
+      display: flex;
+    }
+  
     .nav-link {
-      margin-left: 10px;
-      font-size: 0.9rem;
+      margin: 10px 0;
+      font-size: 1.1rem;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+    }
+  
+    .nav-link:hover {
+      background-color: #f5f5f5;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header-container {
+      padding: 0 15px;
+    }
+  
+    .site-name {
+      font-size: 1.1rem;
+    }
+  
+    .logo-image {
+      height: 30px;
+    }
+  
+    .nav-link {
+      font-size: 1rem;
+      padding: 8px;
     }
   }
   

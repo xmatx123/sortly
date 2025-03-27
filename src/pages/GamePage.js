@@ -50,7 +50,7 @@ function GamePage() {
   const pickNextCountry = () => {
     if (remainingCountries.length === 0) {
       navigate('/gameover', {
-        state: { score, message: 'Congratulations! You sorted all countries correctly.' },
+        state: { score, message: 'Congratulations! You sorted all countries correctly.', mode, },
       });
       return;
     }
@@ -83,6 +83,7 @@ function GamePage() {
           incorrectCountry: currentCountry,
           userOrder: newSortedCountries,
           correctOrder: correctOrder,
+          mode,
         },
       });
     }
@@ -114,7 +115,7 @@ function GamePage() {
 
   sortedCountries.forEach((country, index) => {
     renderComponents.push(
-      <CountryCard key={`country-${country.id}`} country={country} isClickable={true} />
+      <CountryCard key={`country-${country.id}`} country={country} isClickable={true} mode={mode} />
     );
 
     if (currentCountry) {
@@ -162,7 +163,7 @@ function GamePage() {
       {currentCountry && (
         <div className="current-country">
           <h3>Current Country:</h3>
-          <CountryCard country={currentCountry} isClickable={false} />
+          <CountryCard country={currentCountry} isClickable={false} mode={mode} />
         </div>
       )}
     </div>

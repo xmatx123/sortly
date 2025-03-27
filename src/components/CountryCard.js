@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import './CountryCard.css';
 
-function CountryCard({ country, isClickable, highlight }) {
+function CountryCard({ country, isClickable, highlight, mode }) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleClick = () => {
@@ -13,6 +13,15 @@ function CountryCard({ country, isClickable, highlight }) {
   };
 
   const highlightClass = highlight ? `highlighted-${highlight}` : '';
+
+  const getDetailText = () => {
+    if (mode === 'population') {
+      return `Population: ${country.population.toLocaleString()}`;
+    } else if (mode === 'area') {
+      return `Area: ${country.area.toLocaleString()} km²`;
+    }
+    return '';
+  };
 
   return (
     <div
@@ -38,10 +47,7 @@ function CountryCard({ country, isClickable, highlight }) {
           <div className="country-info">
             <h3 className="country-name">{country.name}</h3>
             <p className="country-detail">
-              Population: {country.population.toLocaleString()}
-            </p>
-            <p className="country-detail">
-              Area: {country.area.toLocaleString()} km²
+              {getDetailText()}
             </p>
           </div>
         </div>

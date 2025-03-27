@@ -2,10 +2,32 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ReactGA from 'react-ga4'; // Import ReactGA
 import './HomePage.css';
 
 function HomePage() {
   const navigate = useNavigate();
+
+  // Define the handler functions
+  const handlePlayPopulation = () => {
+    // Track the event in Google Analytics
+    ReactGA.event({
+      category: 'Game',
+      action: 'Clicked Play Population Game',
+    });
+    // Navigate to the population game page
+    navigate('/game/population');
+  };
+
+  const handlePlayArea = () => {
+    // Track the event in Google Analytics
+    ReactGA.event({
+      category: 'Game',
+      action: 'Clicked Play Area Game',
+    });
+    // Navigate to the area game page
+    navigate('/game/area');
+  };
 
   return (
     <div className="homepage">
@@ -15,7 +37,7 @@ function HomePage() {
           <h2>Sort by Population</h2>
           <button
             className="button button-primary"
-            onClick={() => navigate('/game/population')}
+            onClick={handlePlayPopulation} // Use the handler function
           >
             Play Now
           </button>
@@ -28,7 +50,7 @@ function HomePage() {
           <h2>Sort by Area</h2>
           <button
             className="button button-primary"
-            onClick={() => navigate('/game/area')}
+            onClick={handlePlayArea} // Use the handler function
           >
             Play Now
           </button>

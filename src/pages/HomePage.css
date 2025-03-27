@@ -50,15 +50,15 @@
 }
 
 .population-section {
-  background: url('../assets/population.jpg') no-repeat center center/cover;
+  background: url('../assets/population.jpg') center center / cover no-repeat;
 }
 
 .area-section {
-  background: url('../assets/area.jpg') no-repeat center center/cover;
+  background: url('../assets/area.jpg') center center / cover no-repeat;
 }
 
 .coming-soon-section {
-  background: url('../assets/coming-soon.jpg') no-repeat center center/cover;
+  background: url('../assets/coming-soon.jpg') center center / cover no-repeat;
 }
 
 /* Responsive adjustments */

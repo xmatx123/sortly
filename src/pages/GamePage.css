@@ -4,50 +4,52 @@
   text-align: center;
   padding: 20px;
   margin-top: 70px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .sorted-countries-container {
   margin-top: 20px;
+  width: 100%;
 }
 
 .sorted-countries {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: nowrap;
   overflow-x: auto;
   padding: 10px 0;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: none; /* Hide scrollbar on Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar on IE/Edge */
 }
 
 .sorted-countries::-webkit-scrollbar {
-  height: 8px;
-}
-
-.sorted-countries::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 4px;
+  display: none; /* Hide scrollbar on Chrome/Safari */
 }
 
 .insert-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px; /* Slim width */
-  height: 140px; /* Same height as the country cards */
+  width: 40px;
+  height: 140px;
   margin: 5px;
   padding: 5px;
   font-size: 0.8rem;
   font-weight: bold;
   border-radius: 5px;
   border: 1px solid #ccc;
-  background-color: #e4e4e4; /* Same as secondary button */
+  background-color: #e4e4e4;
   color: #333;
   cursor: pointer;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
+  touch-action: manipulation; /* Improve touch handling */
 }
 
 .insert-button:hover {
-  background-color: #ebecff; /* Slightly darker on hover */
+  background-color: #ebecff;
 }
 
 .insert-button:focus {
@@ -68,9 +70,52 @@
 
 .country-card {
   margin: 5px;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
 }
 
 .instructions {
   margin-bottom: 20px;
+  padding: 0 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .game-page {
+    padding: 10px;
+    margin-top: 60px;
+  }
+
+  .sorted-countries {
+    padding: 5px 0;
+  }
+
+  .insert-button {
+    width: 35px;
+    height: 120px;
+    margin: 3px;
+  }
+
+  .instructions {
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-page {
+    padding: 5px;
+    margin-top: 50px;
+  }
+
+  .insert-button {
+    width: 30px;
+    height: 100px;
+    margin: 2px;
+    font-size: 0.7rem;
+  }
+
+  .instructions {
+    font-size: 0.8rem;
+    padding: 0 5px;
+  }
 }
