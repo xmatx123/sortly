@@ -30,13 +30,19 @@
         }
       }(l))
 
-      window.location.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      // Handle direct URL access
+      var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
         base + '/' +
         l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') +
         (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+        l.hash;
+
+      // Ensure the URL is properly formatted
+      if (!redirectUrl.includes('?')) {
+        redirectUrl = redirectUrl.replace('&', '?');
+      }
+
+      window.location.replace(redirectUrl);
     </script>
   </head>
   <body>
