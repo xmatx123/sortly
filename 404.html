@@ -19,27 +19,25 @@
         base = r.slice(0, i).join('/')
       }
 
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-          );
-        }
-      }(l))
-
       // Handle direct URL access
-      var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        base + '/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash;
-
-      // Ensure the URL is properly formatted
-      if (!redirectUrl.includes('?')) {
-        redirectUrl = redirectUrl.replace('&', '?');
+      var path = l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/');
+      
+      // Check if the path contains query parameters
+      if (path.includes('&')) {
+        // Split the path at the first '&' and treat the rest as query parameters
+        var parts = path.split('&');
+        path = parts[0];
+        var queryParams = parts.slice(1).join('&');
+        
+        // Construct the redirect URL with proper query parameter format
+        var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          base + '/' + path + '?' + queryParams;
+      } else {
+        // No query parameters in path, use normal redirect
+        var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          base + '/' + path +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash;
       }
 
       window.location.replace(redirectUrl);
