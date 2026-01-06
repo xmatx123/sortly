@@ -27,12 +27,12 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
         const fetchedCountries = await fetchCountries();
         // Filter countries that don't have the required category data?
         const validCountries = fetchedCountries.filter(c => typeof c[category] !== 'undefined' && c[category] !== null);
-        
+
         if (validCountries.length < 2) {
-           setError(`Not enough countries found with valid data for category: ${category}.`);
-           setGameStatus('ended');
-           setIsLoading(false);
-           return; // Stop loading process
+          setError(`Not enough countries found with valid data for category: ${category}.`);
+          setGameStatus('ended');
+          setIsLoading(false);
+          return; // Stop loading process
         }
 
         const shuffled = validCountries.sort(() => 0.5 - Math.random());
@@ -42,14 +42,14 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
         const sortedInitialPair = [shuffled[0], shuffled[1]].sort((a, b) => (a[category] ?? 0) - (b[category] ?? 0));
         const initialSortedCountry = sortedInitialPair[0];
         const firstCountryToPlace = sortedInitialPair[1];
-        
+
         setSortedCountries([initialSortedCountry]); // Start with the first country placed
         setCurrentCountry(firstCountryToPlace); // Set the second country as the one to place
         // Shuffle the rest
-        setCountriesToPick(shuffled.slice(2).sort(() => 0.5 - Math.random())); 
+        setCountriesToPick(shuffled.slice(2).sort(() => 0.5 - Math.random()));
         setScore(1); // Start score at 1
         setGameStatus('placing');
-       
+
       } catch (err) {
         console.error(`Failed to load countries for category ${category}:`, err);
         setError(err.message || `Failed to load game data for ${category}.`);
@@ -71,14 +71,14 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
     } else {
       // All countries sorted correctly!
       setGameStatus('ended');
-      navigate('/gameover', { 
-        state: { 
-          score: score, 
+      navigate('/gameover', {
+        state: {
+          score: score,
           message: `Congratulations! You sorted all countries by ${category === 'gini' ? 'Gini index' : capitalize(category)}!`, // Adjusted message
-          category: category, 
-          gameMode: `classic_${category}` 
+          category: category,
+          gameMode: `classic_${category}`
         },
-        replace: true 
+        replace: true
       });
     }
   }, [countriesToPick, score, category, navigate]); // Add dependencies of pickNextCountry
@@ -106,20 +106,25 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
       setGameStatus('picking'); // Go to picking state first
     } else {
       // Capture state *before* navigating
-      const finalSortedList = [...sortedCountries]; 
+      const finalSortedList = [...sortedCountries];
       const incorrectCountry = countryToPlace;
       const attemptedIndex = index;
+
+      // Construct the user's attempted order for history/display
+      const userOrder = [...sortedCountries];
+      userOrder.splice(index, 0, incorrectCountry);
 
       setGameStatus('ended');
       navigate('/gameover', {
         state: {
-          score: score, 
+          score: score,
           message: `Incorrect placement based on ${category === 'gini' ? 'Gini index' : capitalize(category)}. Game Over!`, // Adjusted message
-          category: category, 
-          gameMode: `classic_${category}`, 
+          category: category,
+          gameMode: `classic_${category}`,
           finalSortedList: finalSortedList,
           incorrectCountry: incorrectCountry,
-          attemptedIndex: attemptedIndex
+          attemptedIndex: attemptedIndex,
+          userOrder: userOrder // Pass the constructed user order
         },
         replace: true
       });
@@ -150,17 +155,17 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
     <div className="game-mode classic-mode">
       <h2>Classic Mode - Sort by {category === 'gini' ? 'Gini Index' : capitalize(category)} (Lowest to Highest)</h2>
       <p>Score: {score > 0 ? score - 1 : 0}</p>
-      
+
 
       <div className="sorted-countries-container">
-        
+
         <div className="sorted-countries">
           {/* Use button for placement start */}
           {currentCountry && gameStatus === 'placing' && (
-            <button 
-              className="place-button plus-button" 
+            <button
+              className="place-button plus-button"
               onClick={() => handlePlaceCountry(0)}
-              aria-label="Place card at the beginning" 
+              aria-label="Place card at the beginning"
               title={`Place ${currentCountry.name} at the beginning`}
             >
               +
@@ -177,7 +182,7 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
               />
               {/* Use button for placement between */}
               {currentCountry && gameStatus === 'placing' && (
-                <button 
+                <button
                   className="place-button plus-button"
                   onClick={() => handlePlaceCountry(index + 1)}
                   aria-label={`Place card after ${country.name}`}
@@ -190,14 +195,14 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
           ))}
           {/* If sortedCountries is empty and the player can place, show an initial place button */}
           {sortedCountries.length === 0 && currentCountry && gameStatus === 'placing' && (
-             <button 
-                className="place-button plus-button"
-                onClick={() => handlePlaceCountry(0)}
-                aria-label="Place first card"
-                title={`Place ${currentCountry.name} at the beginning`}
-             >
-               +
-             </button>
+            <button
+              className="place-button plus-button"
+              onClick={() => handlePlaceCountry(0)}
+              aria-label="Place first card"
+              title={`Place ${currentCountry.name} at the beginning`}
+            >
+              +
+            </button>
           )}
         </div>
       </div>
@@ -219,8 +224,8 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
           </div>
         </div>
       )}
-       {/* Instructions could be added */}
-       {/* <div className="game-instructions"> ... </div> */}
+      {/* Instructions could be added */}
+      {/* <div className="game-instructions"> ... </div> */}
 
     </div>
   );

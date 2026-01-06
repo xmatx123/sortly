@@ -17,13 +17,13 @@ const parseGameMode = (modeString) => {
   const parts = modeString.split('_');
   if (parts.length === 2) {
     // Handle potential mode name changes if needed (e.g., battleRoyale)
-    const mode = parts[0].toLowerCase(); 
+    const mode = parts[0].toLowerCase();
     const category = parts[1].toLowerCase();
     return { mode, category };
   } else if (parts.length === 1) {
     // Fallback for older/simpler modes if necessary?
     return { mode: parts[0].toLowerCase(), category: 'unknown' }; // Or maybe default to population?
-  } 
+  }
   return { mode: 'unknown', category: 'unknown' };
 };
 
@@ -31,18 +31,18 @@ function GameOverPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  
-  const { 
-    score = 0, 
-    message = 'Game Over!', 
+
+  const {
+    score = 0,
+    message = 'Game Over!',
     gameMode: gameModeString = 'unknown', // Get the combined string
     // Classic mode specific:
-    incorrectCountry, 
-    userOrder, 
+    incorrectCountry,
+    userOrder,
     finalSortedList, // The correctly sorted list *before* the mistake
     // Battle Royale specific:
-    winnerName, 
-    finalPlayersState 
+    winnerName,
+    finalPlayersState
   } = location.state || {};
 
   // Parse the mode and category from the combined string
@@ -74,15 +74,20 @@ function GameOverPage() {
   // Save game history automatically when the component mounts and data is available
   useEffect(() => {
     const saveGameHistory = async () => {
-      // Only run if logged in, data is present, category/mode are known, and save hasn't been attempted
-      if (!currentUser || hasAttemptedSave.current || category === 'unknown' || mode === 'unknown') {
-          if (!currentUser) console.log("Save skipped: No user logged in.");
-          if (hasAttemptedSave.current) console.log("Save skipped: Already attempted.");
-          if (category === 'unknown' || mode === 'unknown') console.log("Save skipped: Unknown category or mode.");
-          return;
+      // Only run if data is present and category/mode are known
+      if (hasAttemptedSave.current || category === 'unknown' || mode === 'unknown') {
+        if (hasAttemptedSave.current) console.log("Save skipped: Already attempted.");
+        if (category === 'unknown' || mode === 'unknown') console.log("Save skipped: Unknown category or mode.");
+        return;
       }
 
-      hasAttemptedSave.current = true; // Mark that we are attempting the save
+      hasAttemptedSave.current = true; // Mark as attempted regardless of login status
+
+      if (!currentUser) {
+        console.log("Firestore save skipped: No user logged in.");
+        return;
+      }
+
       console.log("Attempting to save game history...");
 
       let historyScore = 0;
@@ -125,8 +130,8 @@ function GameOverPage() {
           }));
         }
       } else {
-          console.log("Save skipped: Unrecognized game mode:", mode);
-          return; // Don't save if mode isn't recognized
+        console.log("Save skipped: Unrecognized game mode:", mode);
+        return; // Don't save if mode isn't recognized
       }
 
       // Save only if score > 0 or we have meaningful data (like BR state)
@@ -187,13 +192,13 @@ function GameOverPage() {
       console.log(`Submitting score: ${playerName}, ${submitScoreValue}, ${category}, History ID: ${savedGameId}`);
       const submissionResult = submitScore(playerName, submitScoreValue, category, savedGameId);
       if (submissionResult) {
-          setIsSubmitted(true);
-          setError('');
+        setIsSubmitted(true);
+        setError('');
       } else {
-          setError('Failed to submit score (API error). Please try again.');
+        setError('Failed to submit score (API error). Please try again.');
       }
     } catch (err) {
-        console.error("Error during score submission:", err);
+      console.error("Error during score submission:", err);
       setError('Failed to submit score. Please try again.');
     }
   };
@@ -201,7 +206,7 @@ function GameOverPage() {
   // Function to determine the correct path for "Play Again"
   const getPlayAgainPath = () => {
     if (category === 'unknown' || mode === 'unknown') return '/';
-    
+
     // Use parsed mode and category to construct path
     if (mode === 'classic') {
       return `/game/${category}/classic`;
@@ -210,7 +215,7 @@ function GameOverPage() {
     } else if (mode === 'battleroyale') {
       return `/game/${category}/battleroyale`; // Link back to lobby
     } else {
-      return '/'; 
+      return '/';
     }
   };
 
@@ -263,7 +268,7 @@ function GameOverPage() {
           </div>
           {!currentUser && <p className="info-text">Log in to save game details and submit scores!</p>}
           {error && <p className="error">{error}</p>}
-          <button type="submit" className="button button-primary" disabled={!currentUser || !playerName.trim() || !hasAttemptedSave.current}>
+          <button type="submit" className="button button-primary" disabled={!playerName.trim() || !hasAttemptedSave.current}>
             Submit Score
           </button>
         </form>
@@ -298,9 +303,9 @@ function GameOverPage() {
       {/* Show the correct order up until the mistake */}
       {mode === 'classic' && finalSortedList && incorrectCountry && (
         <div className="correct-order-display">
-            {/* This shows the list *before* the mistake */}
+          {/* This shows the list *before* the mistake */}
           <h3>Correctly sorted before mistake:</h3>
-           <div className="country-list">
+          <div className="country-list">
             {finalSortedList.map((country) => (
               <CountryCard
                 key={country.id}
@@ -312,28 +317,28 @@ function GameOverPage() {
                 isFlippable={true}
               />
             ))}
-             {/* Optionally indicate where the incorrect one *should* have gone,
+            {/* Optionally indicate where the incorrect one *should* have gone,
                  or just show the incorrect one separately */}
-             <p style={{textAlign: 'center', width: '100%', margin: '10px 0'}}>...then you incorrectly placed:</p>
-             <div className="country-list" style={{justifyContent: 'center'}}>
-                 <CountryCard
-                    key={incorrectCountry.id}
-                    country={incorrectCountry}
-                    isClickable={false}
-                    highlight={'incorrect-standalone'} // Special highlight maybe?
-                    mode={category}
-                    statisticValue={incorrectCountry[category]}
-                    isFlippable={true}
-                 />
-             </div>
+            <p style={{ textAlign: 'center', width: '100%', margin: '10px 0' }}>...then you incorrectly placed:</p>
+            <div className="country-list" style={{ justifyContent: 'center' }}>
+              <CountryCard
+                key={incorrectCountry.id}
+                country={incorrectCountry}
+                isClickable={false}
+                highlight={'incorrect-standalone'} // Special highlight maybe?
+                mode={category}
+                statisticValue={incorrectCountry[category]}
+                isFlippable={true}
+              />
+            </div>
           </div>
         </div>
       )}
 
       <div className="navigation-buttons">
-        <button 
-            onClick={() => navigate(getPlayAgainPath())} 
-            className="button button-secondary"
+        <button
+          onClick={() => navigate(getPlayAgainPath())}
+          className="button button-secondary"
         >
           Play Again
         </button>
