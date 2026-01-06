@@ -134,12 +134,12 @@ function GameOverPage() {
         return; // Don't save if mode isn't recognized
       }
 
-      // Save only if score > 0 or we have meaningful data (like BR state)
-      if (historyScore > 0 || (historyDataPayload && historyDataPayload.length > 0)) {
+      // Save only if ... (allow 0 score to be saved if we have payload)
+      if (historyScore >= 0 || (historyDataPayload && historyDataPayload.length > 0)) { // Changed > 0 to >= 0
         try {
-          console.log('Calling gameHistoryService.saveGame with:', { userId: currentUser.uid, category, mode, historyScore /* payload details omitted for brevity */ });
+          console.log('Calling gameHistoryService.saveGame with:', { userId, category, mode, historyScore });
           const gameId = await gameHistoryService.saveGame(
-            currentUser.uid,
+            userId,
             category,
             mode,
             historyScore,
@@ -178,8 +178,8 @@ function GameOverPage() {
       submitScoreValue = score;
     }
 
-    if (submitScoreValue <= 0) {
-      setError('Only scores greater than 0 can be submitted.');
+    if (submitScoreValue < 0) { // Changed <= 0 to < 0 to allow 0 score
+      setError('Only scores of 0 or greater can be submitted.');
       return;
     }
     if (category === 'unknown') {

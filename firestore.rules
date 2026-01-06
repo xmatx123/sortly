@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User Profiles
+    // Users can read/write their own profile
+    // Others can read basic info (nickname, avatar) if you want public profiles, 
+    // otherwise restrict read to 'auth != null' or similar.
+    // For now, allowing authenticated read for leaderboards/lobbies
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Game History
+    // Authenticated users can create game history entries (save their games)
+    // Authenticated users can read game history (e.g. for their own profile or verifying scores)
+    match /gameHistory/{historyId} {
+      allow create: if request.auth != null;
+      allow read: if request.auth != null;
+      // Optional: restrict updates/deletes? 
+      // allow update, delete: if false; 
+    }
+  }
+}
