@@ -32,7 +32,7 @@ const ProfilePage = () => {
 
   const loadProfile = useCallback(async () => {
     if (!userId) return;
-    
+
     try {
       const [userProfile, userAchievements, userGameHistory] = await Promise.all([
         userProfileService.getUserProfile(userId),
@@ -74,12 +74,12 @@ const ProfilePage = () => {
     setShowAvatarSelector(false);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (data) => {
+    // e.preventDefault(); // Not needed as ProfileHeader handles the event
     try {
       setError('');
-      await userProfileService.updateUserProfile(currentUser.uid, formData);
-      setProfile(prev => ({ ...prev, ...formData }));
+      await userProfileService.updateUserProfile(currentUser.uid, data);
+      setProfile(prev => ({ ...prev, ...data }));
       setEditing(false);
     } catch (error) {
       setError('Failed to update profile: ' + error.message);
