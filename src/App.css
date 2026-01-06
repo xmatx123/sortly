@@ -1,6 +1,43 @@
 .App {
   width: 100%;
   overflow-x: hidden;
+  position: relative; /* Needed for pseudo-element positioning */
+  background-color: transparent; /* Make app background transparent */
+  min-height: 100vh; /* Ensure it covers viewport */
+  z-index: 0; /* Ensure content is above pseudo-element */
+  display: flex; /* Use Flexbox for layout */
+  flex-direction: column; /* Stack header, content, footer vertically */
+}
+
+.App::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* Default or fallback background can go here if needed */
+  /* background-image: url('./assets/default.jpg'); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: grayscale(100%);
+  opacity: 0.15;
+  z-index: -1;
+  transition: background-image 0.5s ease-in-out; /* Smooth transition */
+}
+
+/* Apply specific backgrounds based on class */
+.App.bg-population::before {
+  background-image: url('./assets/population.jpg');
+}
+
+.App.bg-area::before {
+  background-image: url('./assets/area.jpg');
+}
+
+.App.bg-gini::before {
+  background-image: url('./assets/gini.jpg');
 }
 
 @keyframes App-logo-spin {
@@ -14,10 +51,78 @@
 
 .content {
   padding-top: 70px; /* Adjust this value based on the header's height */
+  flex-grow: 1; /* Allow content to take available space */
+  position: relative; /* Ensure content establishes stacking context */
+  z-index: 1; /* Place content above pseudo-element */
+  /* Add some default padding maybe? */
+  /* padding-bottom: 2rem; */ /* Example */
 }
 
 /* Optionally, set global styles */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+}
+
+.login-button {
+  position: relative;
+}
+
+.login-form {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 250px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.login-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.login-buttons button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.login-buttons button:hover {
+  background: #0056b3;
+}
+
+.login-buttons button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.profile-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profile-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }

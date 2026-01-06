@@ -1,173 +1,72 @@
 // src/pages/GamePage.js
 
-import React, { useState, useEffect } from 'react';
-import CountryCard from '../components/CountryCard';
-import './GamePage.css';
-import { useNavigate, useParams } from 'react-router-dom';
-import { fetchCountries } from '../api/countriesApi'; // As previously set up
+import React from 'react';
+import { useParams, Navigate, useLocation } from 'react-router-dom';
+import SEO from '../components/SEO';
 
-function GamePage() {
-  const [sortedCountries, setSortedCountries] = useState([]);
-  const [currentCountry, setCurrentCountry] = useState(null);
-  const [remainingCountries, setRemainingCountries] = useState([]);
-  const [score, setScore] = useState(0);
-  const { mode } = useParams(); // Get the game mode from the URL
-  const navigate = useNavigate();
+// Import the reusable game mode components
+import ClassicMode from '../components/Game/ClassicMode';
+import CooperationMode from '../components/Game/CooperationMode';
+import BattleRoyaleMode from '../components/Game/BattleRoyaleMode';
+import './GamePage.css'; // Assuming common styles
 
-  useEffect(() => {
-    const initializeGame = async () => {
-      const data = await fetchCountries();
-      // Filter countries with missing data if necessary
-      const validCountries = data.filter(
-        (country) => country.population && country.area && country.flagUrl
-      );
-      startNewGame(validCountries);
-    };
+// List of valid categories and modes
+const VALID_CATEGORIES = ['population', 'area', 'gini'];
+// Mode names should match component names (lowercase)
+const VALID_MODES = ['classic', 'cooperation', 'battleroyale'];
 
-    initializeGame();
-  }, []);
+function UnifiedGamePage() {
+  const { category, mode } = useParams();
+  const location = useLocation(); // Needed for Coop/BR lobbyId
 
-  // Determine the comparison property based on the game mode
-  const compareProperty = mode === 'area' ? 'area' : 'population';
+  // --- Validation ---
+  const isValidCategory = VALID_CATEGORIES.includes(category?.toLowerCase());
+  const isValidMode = VALID_MODES.includes(mode?.toLowerCase());
 
-  const startNewGame = (data) => {
-    const availableCountries = [...data];
-
-    // Pick a random starting country
-    const randomIndex = Math.floor(Math.random() * availableCountries.length);
-    const firstCountry = availableCountries.splice(randomIndex, 1)[0];
-
-    // Now pick the next country from the remaining
-    const nextIndex = Math.floor(Math.random() * availableCountries.length);
-    const nextCountry = availableCountries.splice(nextIndex, 1)[0];
-
-    setSortedCountries([firstCountry]);
-    setRemainingCountries(availableCountries);
-    setScore(1);
-    setCurrentCountry(nextCountry);
-  };
-
-  const pickNextCountry = () => {
-    if (remainingCountries.length === 0) {
-      navigate('/gameover', {
-        state: { score, message: 'Congratulations! You sorted all countries correctly.', mode, },
-      });
-      return;
-    }
-
-    const countriesCopy = [...remainingCountries];
-    const randomIndex = Math.floor(Math.random() * countriesCopy.length);
-    const nextCountry = countriesCopy.splice(randomIndex, 1)[0];
-
-    setCurrentCountry(nextCountry);
-    setRemainingCountries(countriesCopy);
-  };
-
-  const handleInsert = (index) => {
-    const newSortedCountries = [...sortedCountries];
-    newSortedCountries.splice(index, 0, currentCountry);
-
-    if (isCorrectOrder(newSortedCountries)) {
-      setSortedCountries(newSortedCountries);
-      setScore((prevScore) => prevScore + 1);
-      setCurrentCountry(null);
-      pickNextCountry();
-    } else {
-      const allCountries = [...sortedCountries, currentCountry];
-      const correctOrder = [...allCountries].sort((a, b) => a[compareProperty] - b[compareProperty]);
-
-      navigate('/gameover', {
-        state: {
-          score,
-          message: 'Incorrect placement!',
-          incorrectCountry: currentCountry,
-          userOrder: newSortedCountries,
-          correctOrder: correctOrder,
-          mode,
-        },
-      });
-    }
-  };
-
-  const isCorrectOrder = (countriesList) => {
-    for (let i = 0; i < countriesList.length - 1; i++) {
-      if (countriesList[i][compareProperty] > countriesList[i + 1][compareProperty]) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  // Build the array of components to render
-  const renderComponents = [];
-
-  if (currentCountry) {
-    renderComponents.push(
-      <button
-        key={`insert-0`}
-        className="insert-button lower-button"
-        onClick={() => handleInsert(0)}
-      >
-        Lower
-      </button>
-    );
+  if (!isValidCategory || !isValidMode) {
+    console.error(`Invalid category (${category}) or mode (${mode}) accessed.`);
+    // Redirect to home page or show a 404 component
+    return <Navigate to="/" replace />;
   }
 
-  sortedCountries.forEach((country, index) => {
-    renderComponents.push(
-      <CountryCard key={`country-${country.id}`} country={country} isClickable={true} mode={mode} />
-    );
+  // Multiplayer modes require lobbyId from location state
+  const lobbyId = location.state?.lobbyId;
+  if ((mode === 'cooperation' || mode === 'battleroyale') && !lobbyId) {
+    console.error(`${mode} mode requires a lobbyId in location state.`);
+    // Redirect or show an error message specific to needing a lobby
+    // Might redirect to a lobby page or home
+    return <Navigate to="/" replace state={{ error: "Lobby ID missing for multiplayer game." }} />;
+  }
 
-    if (currentCountry) {
-      let buttonText = '';
-      if (index === sortedCountries.length - 1) {
-        buttonText = 'Higher';
-        renderComponents.push(
-          <button
-            key={`insert-${index + 1}`}
-            className="insert-button higher-button"
-            onClick={() => handleInsert(index + 1)}
-          >
-            {buttonText}
-          </button>
-        );
-      } else {
-        buttonText = 'Here';
-        renderComponents.push(
-          <button
-            key={`insert-${index + 1}`}
-            className="insert-button here-button"
-            onClick={() => handleInsert(index + 1)}
-          >
-            {buttonText}
-          </button>
-        );
-      }
+  // --- Component Rendering ---
+  const renderGameMode = () => {
+    switch (mode.toLowerCase()) {
+      case 'classic':
+        // Classic mode only needs the category
+        return <ClassicMode category={category} />;
+      case 'cooperation':
+        // Cooperation mode needs category and lobbyId
+        return <CooperationMode category={category} lobbyId={lobbyId} />;
+      case 'battleroyale':
+        // Battle Royale mode needs category and lobbyId
+        return <BattleRoyaleMode category={category} lobbyId={lobbyId} />;
+      default:
+        // This case should ideally be caught by validation, but acts as a fallback
+        console.error('Reached default case in renderGameMode - should not happen!');
+        return <Navigate to="/" replace />;
     }
-  });
+  };
 
   return (
-    <div className="game-page">
-      <h2>Sort Countries by {mode === 'area' ? 'Area' : 'Population'} (Ascending)</h2>
-      <p>Score: {score - 1}</p>
-      <div className="sorted-countries-container">
-        {currentCountry && (
-          <div className="instructions">
-            <p>
-              Where does <strong>{currentCountry.name}</strong> fit among the sorted countries?
-            </p>
-          </div>
-        )}
-        <div className="sorted-countries">{renderComponents}</div>
-      </div>
-      {currentCountry && (
-        <div className="current-country">
-          <h3>Current Country:</h3>
-          <CountryCard country={currentCountry} isClickable={false} mode={mode} />
-        </div>
-      )}
+    <div className="game-page-container">
+      <SEO
+        title={`Sort by ${category.charAt(0).toUpperCase() + category.slice(1)} (${mode})`}
+        description={`Play Sortly: Sort countries by ${category} in ${mode} mode.`}
+      />
+      {/* This container can hold styles common to all game pages */}
+      {renderGameMode()}
     </div>
   );
 }
 
-export default GamePage;
+export default UnifiedGamePage;

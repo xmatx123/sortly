@@ -1,0 +1,14 @@
+.game-history-section {
+  margin-top: 2rem;
+}
+
+.game-history-section h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.game-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+} 

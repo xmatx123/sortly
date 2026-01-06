@@ -1,0 +1,64 @@
+.achievement-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.achievement-card.locked {
+  opacity: 0.7;
+  background-color: #f8f9fa;
+}
+
+.achievement-card.unlocked {
+  border-color: #28a745;
+  background-color: #f8fff9;
+}
+
+.achievement-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 50%;
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.achievement-info p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.achievement-date {
+  font-size: 0.8rem;
+  color: #28a745;
+}
+
+.achievement-status {
+  font-size: 1.5rem;
+  color: #28a745;
+} 

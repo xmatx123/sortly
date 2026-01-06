@@ -1,121 +1,231 @@
+@import '../styles/common.css';
+
 /* src/pages/GamePage.css */
 
 .game-page {
+  composes: page-container;
   text-align: center;
-  padding: 20px;
   margin-top: 70px;
-  max-width: 100%;
-  overflow-x: hidden;
+}
+
+.game-mode {
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Explicitly center title and score text */
+.game-mode > h2,
+.game-mode > p {
+  text-align: center;
+  margin-left: auto; /* Helps if element isn't full width */
+  margin-right: auto; /* Helps if element isn't full width */
+}
+
+/* Add some spacing below title and score */
+.game-mode > h2 {
+  margin-bottom: 0.5rem;
+  color: #333; /* Example style */
+  font-size: 1.6rem; /* Example style */
+}
+
+.game-mode > p {
+  margin-bottom: 1.5rem; /* Space before sorted container */
+  color: #555; /* Example style */
+  font-size: 1.1rem; /* Example style */
 }
 
 .sorted-countries-container {
-  margin-top: 20px;
+  margin-bottom: 2rem;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.sorted-countries-container h3 {
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
 }
 
 .sorted-countries {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding: 10px 0;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  scrollbar-width: none; /* Hide scrollbar on Firefox */
-  -ms-overflow-style: none; /* Hide scrollbar on IE/Edge */
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 1.5rem;
+  background: #e9ecef;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  min-height: 180px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.sorted-countries::-webkit-scrollbar {
-  display: none; /* Hide scrollbar on Chrome/Safari */
+.insert-buttons {
+  display: none;
 }
 
 .insert-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 140px;
-  margin: 5px;
-  padding: 5px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #e4e4e4;
-  color: #333;
-  cursor: pointer;
-  flex-shrink: 0;
-  touch-action: manipulation; /* Improve touch handling */
-}
-
-.insert-button:hover {
-  background-color: #ebecff;
-}
-
-.insert-button:focus {
-  outline: none;
+  display: none;
 }
 
 .lower-button {
-  /* Additional styles if needed */
+  display: none;
 }
 
 .here-button {
-  /* Additional styles if needed */
+  display: none;
 }
 
 .higher-button {
-  /* Additional styles if needed */
-}
-
-.country-card {
-  margin: 5px;
-  flex-shrink: 0;
+  display: none;
 }
 
 .instructions {
-  margin-bottom: 20px;
-  padding: 0 15px;
+  composes: section;
+  margin-bottom: 1.5rem;
+  padding: 15px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Responsive Design */
+.current-country {
+  composes: section;
+  margin-top: 2rem;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.current-country h3 {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.current-country > .country-card {
+  margin: 0 auto;
+}
+
+.remaining-countries {
+  composes: section;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.remaining-countries h3 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.remaining-countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.insertion-point {
+  display: none;
+}
+
+.place-button.plus-button {
+  background-color: #28a745;
+  border: none;
+  color: white;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.place-button.plus-button:hover {
+  background-color: #218838;
+  transform: scale(1.1);
+}
+
+.place-button.plus-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
 @media (max-width: 768px) {
   .game-page {
-    padding: 10px;
-    margin-top: 60px;
+    padding: 1rem;
   }
 
   .sorted-countries {
-    padding: 5px 0;
+    padding: 1rem;
+    min-height: 150px;
+    gap: 8px;
+  }
+  
+  .place-button.plus-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
   }
 
-  .insert-button {
-    width: 35px;
-    height: 120px;
-    margin: 3px;
+  .current-country {
+    padding: 1rem 1.5rem;
+    max-width: 90%;
   }
 
-  .instructions {
-    font-size: 0.9rem;
-    padding: 0 10px;
+  .remaining-countries-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
 
 @media (max-width: 480px) {
-  .game-page {
-    padding: 5px;
-    margin-top: 50px;
+  .sorted-countries {
+    padding: 0.5rem;
+    min-height: 120px;
+    gap: 5px;
+  }
+  
+  .place-button.plus-button {
+    width: 35px;
+    height: 35px;
+    font-size: 1.1rem;
   }
 
-  .insert-button {
-    width: 30px;
-    height: 100px;
-    margin: 2px;
-    font-size: 0.7rem;
+  .current-country {
+    padding: 1rem;
   }
 
-  .instructions {
-    font-size: 0.8rem;
-    padding: 0 5px;
+  .remaining-countries-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+
+  .game-mode {
+    padding: 0 0.5rem;
   }
 }

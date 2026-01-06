@@ -41,19 +41,78 @@
   .header-nav {
     display: flex;
     align-items: center;
+    gap: 15px; /* Add consistent gap between nav items */
   }
   
   .nav-link {
-    margin-left: 20px;
     text-decoration: none;
     font-size: 1rem;
-    color: #000000; /* White text for contrast */
+    color: #000000;
     transition: color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
   }
   
   .nav-link:hover {
     color: #dddddd; /* Slight color change on hover */
   }
+  
+  /* --- Dropdown Menu Styles --- */
+  
+  .nav-dropdown {
+    position: relative; /* Anchor for the absolute dropdown menu */
+  }
+  
+  .dropdown-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: default; /* Category name isn't directly clickable */
+    font-family: inherit; /* Inherit font from nav-link */
+    font-size: inherit; /* Inherit font size */
+    color: inherit; /* Inherit color */
+  }
+  
+  .dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%; /* Position below the toggle button */
+    left: 0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 5px 0; /* Vertical padding */
+    min-width: 160px; /* Adjust as needed */
+    z-index: 1001; /* Ensure it's above other header content */
+    list-style: none;
+    margin-top: 5px; /* Small gap between button and menu */
+  }
+  
+  /* Show dropdown on hover */
+  .nav-dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 8px 15px;
+    text-align: left;
+    text-decoration: none;
+    color: #333333; /* Slightly darker text for items */
+    background: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 0.95rem; /* Slightly smaller font for items */
+    transition: background-color 0.2s ease;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f5f5f5; /* Hover background */
+    color: #000000;
+  }
+  
+  /* --- End Dropdown Menu Styles --- */
   
   /* Mobile Menu Button */
   .menu-button {
@@ -106,6 +165,64 @@
   
     .nav-link:hover {
       background-color: #f5f5f5;
+    }
+  
+    /* Adjust dropdown for mobile view */
+    .nav-dropdown {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .dropdown-toggle {
+      padding: 10px; /* Match nav-link padding */
+      width: 100%;
+      cursor: default; /* Still not clickable itself */
+    }
+  
+    .dropdown-toggle:hover {
+       background-color: #f5f5f5; /* Match nav-link hover */
+    }
+  
+    .dropdown-menu {
+      position: static; /* Override absolute positioning */
+      display: none; /* Still hidden by default */
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0;
+      min-width: unset;
+      margin-top: 0;
+      /* Add a slight inset or background to differentiate */
+      background-color: #f9f9f9; 
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+  
+    /* Show dropdown when parent is hovered (might work on some touch devices, primary interaction is item click) */
+    /* Or consider JS click toggle for mobile */
+    .nav-dropdown:hover .dropdown-menu {
+       display: block;
+    }
+    
+    /* Alternatively, always show subitems on mobile? */
+    /* .nav-dropdown .dropdown-menu { display: block; } */
+  
+    .dropdown-item {
+      text-align: center;
+      padding: 10px 15px;
+      font-size: 1rem; /* Match other mobile nav links */
+      color: #555555;
+    }
+  
+    .dropdown-item:hover {
+       background-color: #eeeeee;
+       color: #000000;
+    }
+  
+    /* Add spacing for login button if needed */
+    .nav-login {
+       margin-top: 10px;
+       width: 100%;
+       text-align: center;
     }
   }
   

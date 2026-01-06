@@ -1,0 +1,121 @@
+@import './Buttons.css'; /* Import button styles if needed */
+
+.game-lobby {
+  max-width: 500px; /* Slightly narrower */
+  margin: 60px auto; /* Adjusted margin */
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Center align most text */
+}
+
+.lobby-header h2 {
+  color: #333;
+  margin-bottom: 0.5rem; /* Reduced margin */
+}
+
+.lobby-id-display {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem; /* Spacing below lobby ID */
+}
+
+.lobby-id-display strong {
+  font-weight: 600;
+  color: #007bff; /* Highlight color for ID */
+  user-select: text; /* Allow selecting lobby ID */
+}
+
+.player-list-container {
+  margin-bottom: 2rem;
+  text-align: left; /* Align player list content left */
+  padding: 1rem;
+  background-color: #f8f9fa; /* Light background for player list area */
+  border-radius: 8px;
+}
+
+.player-list-container h3 {
+  color: #444;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #eee; /* Separator line */
+  padding-bottom: 0.5rem;
+}
+
+.player-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.player-item {
+  padding: 0.75rem 1rem; /* Increased padding */
+  margin-bottom: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex; /* Use flex for better alignment of name/tags */
+  justify-content: space-between; /* Push tags to the right */
+  align-items: center;
+}
+
+.player-name {
+  font-weight: 500;
+}
+
+.player-tag {
+  font-size: 0.9em;
+  color: #666;
+  margin-left: 0.5rem; /* Space before tags */
+}
+
+.host-tag {
+  font-weight: bold;
+  color: #28a745; /* Green for host */
+}
+
+.you-tag {
+  font-style: italic;
+  color: #17a2b8; /* Cyan for 'you' */
+}
+
+.lobby-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center; /* Center buttons */
+  margin-top: 1.5rem; /* Space above buttons */
+}
+
+.lobby-controls .button {
+  padding: 0.8rem 1.5rem; /* Consistent button padding */
+  min-width: 160px; /* Give buttons a minimum width */
+}
+
+.error-message { /* Updated from .error */
+  color: #dc3545; /* Bootstrap danger color */
+  text-align: center;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: #f8d7da; /* Light red background */
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .game-lobby {
+    margin: 40px 1rem;
+    padding: 1.5rem;
+  }
+
+  .lobby-controls {
+    flex-direction: column; /* Stack buttons on small screens */
+    align-items: center; /* Center stacked buttons */
+  }
+
+  .lobby-controls .button {
+    width: 100%; /* Make buttons full width */
+    max-width: 300px; /* Limit max width */
+  }
+} 

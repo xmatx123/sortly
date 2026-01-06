@@ -62,4 +62,73 @@ tr:hover {
   .mode-filters {
     flex-wrap: wrap;
   }
+}
+
+.leaderboard-section {
+  margin-bottom: 40px;
+}
+
+.leaderboard-section h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.leaderboard-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.leaderboard-table th {
+  background-color: #f2f2f2;
+}
+
+/* Make clickable rows visually distinct */
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #f0f0f0;
+}
+
+/* Styling for the flags column */
+.leaderboard-flags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-width: 150px;
+}
+
+.flag-image {
+  width: 24px;
+  height: auto;
+  border: 1px solid #ccc;
+  vertical-align: middle;
+}
+
+.incorrect-flag {
+  border: 2px solid red;
+  box-shadow: 0 0 3px red;
+}
+
+/* Styling for the click indicator */
+.click-indicator {
+  font-size: 1.1em;
+  margin-left: 8px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.clickable-row:hover .click-indicator {
+  opacity: 1;
 } 

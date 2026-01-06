@@ -1,0 +1,64 @@
+/* src/pages/GameReviewPage.css */
+
+.game-review-page {
+  padding: 20px;
+  max-width: 900px;
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.game-review-page h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.game-review-page p {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 1.1em;
+}
+
+.review-section {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.review-section h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+/* Re-use country list styling if possible, or add specific overrides */
+.game-review-page .country-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center items */
+  gap: 15px;
+  margin-top: 15px;
+}
+
+/* Add styles for loading/error states */
+.game-review-page.loading,
+.game-review-page.error {
+  text-align: center;
+  font-size: 1.2em;
+  padding: 40px 20px;
+}
+
+.game-review-page.error p {
+    color: #d9534f; /* Error color */
+}
+
+/* Style navigation buttons */
+.game-review-page .navigation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+} 

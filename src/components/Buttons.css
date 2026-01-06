@@ -1,16 +1,17 @@
 /* src/components/Buttons.css */
 
 .button {
-  display: inline-block;
-  margin: 10px;
   padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
   font-size: 1rem;
-  font-weight: bold;
-  border-radius: 10px; /* Same as country cards */
-  text-decoration: none;
-  text-align: center;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  min-width: 120px;
 }
 
 /* Primary Button Style */

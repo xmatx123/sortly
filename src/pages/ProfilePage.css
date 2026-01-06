@@ -1,0 +1,550 @@
+@import '../styles/common.css';
+
+.profile-page {
+  composes: page-container;
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profile-header {
+  composes: section;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4CAF50;
+}
+
+.avatar-container {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.avatar-upload {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 0 0 75px 75px;
+}
+
+.avatar-upload input {
+  width: 100%;
+  padding: 5px;
+  border: none;
+  border-radius: 4px;
+  background: white;
+  color: black;
+}
+
+.profile-main {
+  max-width: 500px;
+}
+
+.email {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 10px 0;
+}
+
+.nickname {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.country {
+  font-size: 1.2rem;
+  color: #444;
+  margin: 10px 0;
+}
+
+.edit-button, .save-button, .cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+.edit-button {
+  background: #007bff;
+  color: white;
+}
+
+.edit-button:hover {
+  background: #0056b3;
+}
+
+.save-button {
+  background: #28a745;
+  color: white;
+  margin-right: 10px;
+}
+
+.save-button:hover {
+  background: #218838;
+}
+
+.cancel-button {
+  background: #dc3545;
+  color: white;
+}
+
+.cancel-button:hover {
+  background: #c82333;
+}
+
+.profile-form {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.achievements-section {
+  composes: section;
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.achievements-section h2 {
+  composes: section-title;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.achievements-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.achievement-mode {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-mode h3 {
+  color: #34495e;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.achievement-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.achievement-category {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.achievement-category h4 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.5rem;
+}
+
+.achievement-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement-card.locked {
+  opacity: 0.7;
+  background-color: #e9ecef;
+}
+
+.achievement-card.unlocked {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  min-width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-info h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.achievement-info p {
+  margin: 0.5rem 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.achievement-date {
+  font-size: 0.8rem;
+  color: #28a745;
+  margin-top: 0.5rem;
+}
+
+.achievement-progress {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+}
+
+.achievement-status {
+  font-size: 1.5rem;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.achievement-card.unlocked .achievement-status {
+  color: #28a745;
+}
+
+.achievement-card.locked .achievement-status {
+  color: #6c757d;
+}
+
+/* Add a subtle animation for unlocked achievements */
+.achievement-card.unlocked {
+  animation: achievementUnlock 0.5s ease-out;
+}
+
+@keyframes achievementUnlock {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.change-avatar-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 0 0 75px 75px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.change-avatar-button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.avatar-selector {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  margin-top: 10px;
+  z-index: 1000;
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.avatar-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.avatar-option:hover {
+  background: #f0f0f0;
+}
+
+.avatar-option.selected {
+  background: #e3f2fd;
+  border: 2px solid #007bff;
+}
+
+.avatar-option img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.avatar-option span {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-content {
+    padding: 20px;
+  }
+
+  .profile-main {
+    max-width: 100%;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .save-button, .cancel-button {
+    width: 100%;
+  }
+
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .avatar-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .avatar-selector {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+.game-history-section {
+  composes: section;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-history-section h2 {
+  composes: section-title;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.game-history-category {
+  margin-bottom: 2rem;
+}
+
+.game-history-category h3 {
+  color: #34495e;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.game-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.game-history-item {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.game-history-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.game-rank {
+  font-weight: bold;
+  color: #3498db;
+  font-size: 1.1rem;
+}
+
+.game-score {
+  color: #2ecc71;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.game-mode {
+  color: #34495e;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.game-date {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.game-countries {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.country-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f1f3f5;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.country-item:hover {
+  background-color: #e9ecef;
+}
+
+.country-flag {
+  width: 24px;
+  height: 16px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.country-item span {
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.refresh-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.refresh-button:hover {
+} 

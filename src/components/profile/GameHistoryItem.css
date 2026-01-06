@@ -1,0 +1,61 @@
+.game-history-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.game-rank {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #007bff;
+  min-width: 40px;
+  text-align: center;
+}
+
+.game-score {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.game-mode {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: right;
+}
+
+.game-date {
+  grid-column: 2;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.game-countries {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.country-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8f9fa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.country-flag {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+} 
