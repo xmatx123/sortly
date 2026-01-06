@@ -49,27 +49,28 @@ function App() {
   }, [location.pathname]);
 
   return (
-    <AuthProvider>
-      {/* Apply dynamic background class */}
-      <div className={`App ${backgroundClass}`}>
-        <Header />
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            {/* Updated lobby route path to match useMatch */}
-            <Route path="/game/:category/cooperation" element={<GameLobby gameMode="cooperation" />} />
-            <Route path="/game/:category/battleroyale" element={<GameLobby gameMode="battleRoyale" />} />
-            <Route path="/game/:category/:mode" element={<UnifiedGamePage />} />
-            <Route path="/gameover" element={<GameOverPage />} />
-            <Route path="/leaderboard" element={<LeaderboardPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/test" element={<FirebaseTest />} />
-            <Route path="/game-review/:gameId" element={<GameReviewPage />} />
-          </Routes>
+    <HelmetProvider>
+      <AuthProvider>
+        {/* Apply dynamic background class */}
+        <div className={`App ${backgroundClass}`}>
+          <Header />
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              {/* Updated lobby route path to match useMatch */}
+              <Route path="/game/:category/cooperation" element={<GameLobby gameMode="cooperation" />} />
+              <Route path="/game/:category/battleroyale" element={<GameLobby gameMode="battleRoyale" />} />
+              <Route path="/game/:category/:mode" element={<UnifiedGamePage />} />
+              <Route path="/gameover" element={<GameOverPage />} />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/test" element={<FirebaseTest />} />
+              <Route path="/game-review/:gameId" element={<GameReviewPage />} />
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </AuthProvider>
+      </AuthProvider>
     </HelmetProvider >
   );
 }
