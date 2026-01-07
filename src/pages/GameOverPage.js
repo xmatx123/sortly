@@ -3,7 +3,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CountryCard from '../components/CountryCard';
-import { submitScore } from '../api/leaderboardApi';
+import { submitScore as submitScoreLocal } from '../api/leaderboardApi'; // Renaming local just in case we need fallback
+import { leaderboardService } from '../services/leaderboardService';
+import { achievementsService } from '../services/achievementsService';
 import { gameHistoryService } from '../services/gameHistoryService';
 import { userProfileService } from '../services/userProfileService';
 import { useAuth } from '../contexts/AuthContext';
@@ -73,7 +75,7 @@ function GameOverPage() {
 
   // Save game history automatically when the component mounts and data is available
   useEffect(() => {
-    const saveGameHistory = async () => {
+    const saveGameHistoryAndCheckAchievements = async () => {
       // Only run if data is present and category/mode are known
       if (hasAttemptedSave.current || category === 'unknown' || mode === 'unknown') {
         if (hasAttemptedSave.current) console.log("Save skipped: Already attempted.");
@@ -137,9 +139,9 @@ function GameOverPage() {
       // Save only if ... (allow 0 score to be saved if we have payload)
       if (historyScore >= 0 || (historyDataPayload && historyDataPayload.length > 0)) { // Changed > 0 to >= 0
         try {
-          console.log('Calling gameHistoryService.saveGame with:', { userId, category, mode, historyScore });
+          console.log('Calling gameHistoryService.saveGame with:', { userId: currentUser.uid, category, mode, historyScore });
           const gameId = await gameHistoryService.saveGame(
-            userId,
+            currentUser.uid,
             category,
             mode,
             historyScore,
@@ -149,6 +151,17 @@ function GameOverPage() {
           );
           setSavedGameId(gameId); // Store the returned ID
           console.log('Game history saved successfully with ID:', gameId);
+
+          // Check Achievements (Classic Mode only)
+          if (mode === 'classic' && historyScore > 0) {
+            try {
+              await achievementsService.checkAndUpdateAchievements(currentUser.uid, category, historyScore);
+              console.log('Achievements checked successfully');
+            } catch (achievementErr) {
+              console.error('Error updating achievements:', achievementErr);
+            }
+          }
+
         } catch (err) {
           console.error('Error saving game history:', err);
           setError('Failed to save game details. Score submission may not link correctly.');
@@ -159,12 +172,125 @@ function GameOverPage() {
       }
     };
 
-    saveGameHistory();
+    saveGameHistoryAndCheckAchievements();
+    // Dependencies: Ensure all relevant state pieces trigger this effect appropriately.
+  }, [currentUser, mode, category, score, userOrder, finalSortedList, incorrectCountry, finalPlayersState]);
+
+  import { leaderboardService } from '../services/leaderboardService';
+  import { achievementsService } from '../services/achievementsService';
+
+  // ... (other imports)
+
+  // ...
+
+  // Save game history automatically when the component mounts and data is available
+  useEffect(() => {
+    const saveGameHistoryAndCheckAchievements = async () => {
+      // Only run if data is present and category/mode are known
+      if (hasAttemptedSave.current || category === 'unknown' || mode === 'unknown') {
+        if (hasAttemptedSave.current) console.log("Save skipped: Already attempted.");
+        if (category === 'unknown' || mode === 'unknown') console.log("Save skipped: Unknown category or mode.");
+        return;
+      }
+
+      hasAttemptedSave.current = true; // Mark as attempted
+
+      if (!currentUser) {
+        console.log("Firestore save skipped: No user logged in.");
+        return;
+      }
+
+      console.log("Attempting to save game history and check achievements...");
+
+      let historyScore = 0;
+      let historyDataPayload = null; // For the user's attempt list or BR state
+      let correctlySortedForSave = null; // For classic mode: the list before mistake
+      let incorrectCountryForSave = null; // For classic mode: the wrongly placed country
+
+      if (mode === 'classic' || mode === 'cooperation') {
+        historyScore = score > 0 ? score - 1 : 0;
+        // User's final order (payload)
+        if (userOrder) {
+          historyDataPayload = userOrder.map(country => ({
+            id: country.id,
+            name: country.name,
+            flagUrl: country.flagUrl,
+            [category]: country[category]
+          }));
+        }
+        // Classic specific data
+        if (mode === 'classic') {
+          if (finalSortedList) { // Use finalSortedList passed from ClassicMode
+            correctlySortedForSave = finalSortedList.map(c => ({
+              id: c.id, name: c.name, flagUrl: c.flagUrl, [category]: c[category]
+            }));
+          }
+          if (incorrectCountry) {
+            incorrectCountryForSave = {
+              id: incorrectCountry.id,
+              name: incorrectCountry.name,
+              flagUrl: incorrectCountry.flagUrl,
+              [category]: incorrectCountry[category]
+            };
+          }
+        }
+      } else if (mode === 'battleroyale') {
+        historyScore = score;
+        if (finalPlayersState) {
+          historyDataPayload = finalPlayersState.map(p => ({
+            name: p.name, score: p.score, isActive: p.isActive
+          }));
+        }
+      } else {
+        console.log("Save skipped: Unrecognized game mode:", mode);
+        return; // Don't save if mode isn't recognized
+      }
+
+      // 1. Save Game History
+      // Save only if ... (allow 0 score to be saved if we have payload)
+      if (historyScore >= 0 || (historyDataPayload && historyDataPayload.length > 0)) { // Changed > 0 to >= 0
+        try {
+          console.log('Calling gameHistoryService.saveGame with:', { userId: currentUser.uid, category, mode, historyScore });
+          const gameId = await gameHistoryService.saveGame(
+            currentUser.uid,
+            category,
+            mode,
+            historyScore,
+            historyDataPayload, // Pass the user's attempt list or BR state
+            correctlySortedForSave, // Pass classic mode's correct list (before mistake)
+            incorrectCountryForSave // Pass classic mode's incorrect country
+          );
+          setSavedGameId(gameId); // Store the returned ID
+          console.log('Game history saved successfully with ID:', gameId);
+
+          // 2. Check Achievements (Classic Mode only for now as per definitions)
+          if (mode === 'classic' && historyScore > 0) {
+            try {
+              console.log('Checking achievements for score:', historyScore);
+              const updatedAchievements = await achievementsService.checkAndUpdateAchievements(currentUser.uid, category, historyScore);
+              console.log('Achievements updated:', updatedAchievements);
+              // Optionally notify user of new achievements here
+            } catch (achievementErr) {
+              console.error('Error updating achievements:', achievementErr);
+            }
+          }
+
+        } catch (err) {
+          console.error('Error saving game history:', err);
+          setError('Failed to save game details. Score submission may not link correctly.');
+          // Still allow score submission, just won't be linked
+        }
+      } else {
+        console.log('Skipping game history save: Score is zero and no other data to save.');
+      }
+    };
+
+    saveGameHistoryAndCheckAchievements();
     // Dependencies: Ensure all relevant state pieces trigger this effect appropriately.
   }, [currentUser, mode, category, score, userOrder, finalSortedList, incorrectCountry, finalPlayersState]);
 
   // Handle score submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => { // Made async
     e.preventDefault();
     if (!playerName.trim()) {
       setError('Please enter your name');
@@ -189,13 +315,22 @@ function GameOverPage() {
 
     try {
       // Pass category and the savedGameId (if available) to submitScore API
-      console.log(`Submitting score: ${playerName}, ${submitScoreValue}, ${category}, History ID: ${savedGameId}`);
-      const submissionResult = submitScore(playerName, submitScoreValue, category, savedGameId);
-      if (submissionResult) {
+      console.log(`Submitting score to Global Leaderboard: ${playerName}, ${submitScoreValue}, ${category}, History ID: ${savedGameId}`);
+
+      // Use GLOBAL Leaderboard Service
+      const submissionId = await leaderboardService.submitScore(
+        playerName,
+        submitScoreValue,
+        category,
+        savedGameId,
+        currentUser ? currentUser.uid : null
+      );
+
+      if (submissionId) {
         setIsSubmitted(true);
         setError('');
       } else {
-        setError('Failed to submit score (API error). Please try again.');
+        setError('Failed to submit score. Please try again.');
       }
     } catch (err) {
       console.error("Error during score submission:", err);
