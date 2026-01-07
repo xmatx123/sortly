@@ -3,18 +3,22 @@ import PropTypes from 'prop-types';
 import GameHistoryItem from './GameHistoryItem';
 import './GameHistory.css';
 
+import { useNavigate } from 'react-router-dom';
+
 const GameHistory = ({ gameHistory }) => {
+  const navigate = useNavigate();
+
   const topGames = useMemo(() => {
     if (!gameHistory || Object.keys(gameHistory).length === 0) {
       return [];
     }
 
     const entries = Object.entries(gameHistory);
-    const flattenedGames = entries.flatMap(([category, games]) => 
+    const flattenedGames = entries.flatMap(([category, games]) =>
       games.map(game => ({ ...game, category }))
     );
 
-    const uniqueGames = flattenedGames.filter((game, index, self) => 
+    const uniqueGames = flattenedGames.filter((game, index, self) =>
       index === self.findIndex((g) => g.id === game.id)
     );
 
@@ -22,6 +26,10 @@ const GameHistory = ({ gameHistory }) => {
       .sort((a, b) => b.score - a.score)
       .slice(0, 5);
   }, [gameHistory]);
+
+  const handleGameClick = (gameId) => {
+    navigate(`/game-review/${gameId}`);
+  };
 
   if (!gameHistory) {
     return (
@@ -46,7 +54,12 @@ const GameHistory = ({ gameHistory }) => {
       <h2>Best 5 Games</h2>
       <div className="game-history-list">
         {topGames.map((game, index) => (
-          <GameHistoryItem key={game.id} game={game} index={index} />
+          <GameHistoryItem
+            key={game.id}
+            game={game}
+            index={index}
+            onClick={handleGameClick}
+          />
         ))}
       </div>
     </div>

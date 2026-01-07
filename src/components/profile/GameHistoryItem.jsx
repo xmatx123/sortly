@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { formatDate } from '../../utils/dateUtils';
 import './GameHistoryItem.css';
 
-const GameHistoryItem = ({ game, index }) => (
-  <div className="game-history-item">
+const GameHistoryItem = ({ game, index, onClick }) => (
+  <div className="game-history-item" onClick={() => onClick(game.id)}>
     <div className="game-rank">#{index + 1}</div>
     <div className="game-score">Score: {game.score}</div>
     <div className="game-mode">{game.category.charAt(0).toUpperCase() + game.category.slice(1)} Mode</div>
@@ -33,7 +33,8 @@ GameHistoryItem.propTypes = {
       flagUrl: PropTypes.string.isRequired
     }))
   }).isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default GameHistoryItem; 
