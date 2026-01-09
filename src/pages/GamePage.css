@@ -15,24 +15,31 @@
 }
 
 /* Explicitly center title and score text */
-.game-mode > h2,
-.game-mode > p {
+.game-mode>h2,
+.game-mode>p {
   text-align: center;
-  margin-left: auto; /* Helps if element isn't full width */
-  margin-right: auto; /* Helps if element isn't full width */
+  margin-left: auto;
+  /* Helps if element isn't full width */
+  margin-right: auto;
+  /* Helps if element isn't full width */
 }
 
 /* Add some spacing below title and score */
-.game-mode > h2 {
+.game-mode>h2 {
   margin-bottom: 0.5rem;
-  color: #333; /* Example style */
-  font-size: 1.6rem; /* Example style */
+  color: #333;
+  /* Example style */
+  font-size: 1.6rem;
+  /* Example style */
 }
 
-.game-mode > p {
-  margin-bottom: 1.5rem; /* Space before sorted container */
-  color: #555; /* Example style */
-  font-size: 1.1rem; /* Example style */
+.game-mode>p {
+  margin-bottom: 1.5rem;
+  /* Space before sorted container */
+  color: #555;
+  /* Example style */
+  font-size: 1.1rem;
+  /* Example style */
 }
 
 .sorted-countries-container {
@@ -115,7 +122,7 @@
   font-size: 1.2rem;
 }
 
-.current-country > .country-card {
+.current-country>.country-card {
   margin: 0 auto;
 }
 
@@ -187,7 +194,7 @@
     min-height: 150px;
     gap: 8px;
   }
-  
+
   .place-button.plus-button {
     width: 40px;
     height: 40px;
@@ -210,7 +217,7 @@
     min-height: 120px;
     gap: 5px;
   }
-  
+
   .place-button.plus-button {
     width: 35px;
     height: 35px;
@@ -228,4 +235,65 @@
   .game-mode {
     padding: 0 0.5rem;
   }
+}
+
+/* Drop Zone Styles */
+/* Drop Zone Styles */
+.drop-zone {
+  width: 60px;
+  /* Increased hit area from 20px */
+  height: 300px;
+  /* Match card height */
+  margin: 0 -20px;
+  /* Negative margin to overlap/keep visual gap small */
+  background-color: transparent;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 10;
+  /* Ensure it's on top */
+  position: relative;
+}
+
+.drop-zone.active-drop {
+  width: 160px;
+  /* Visual expansion */
+  margin: 0 5px;
+  /* Reset margin so it takes up real space */
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px dashed rgba(255, 255, 255, 0.6);
+  z-index: 5;
+}
+
+.drop-zone.empty-drop {
+  width: 220px;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.drop-zone.empty-drop::after {
+  content: "Drop Here";
+  color: white;
+  font-weight: bold;
+}
+
+/* Hide the old buttons just in case, or we replace them in JS */
+.place-button {
+  /* We will remove these from JS, but safe to have */
+}
+
+/* Ensure the sorted list can scroll/flex properly */
+.sorted-countries {
+  display: flex;
+  flex-wrap: nowrap;
+  /* Prevent wrapping for horizontal scroll */
+  align-items: center;
+  overflow-x: auto;
+  padding: 20px;
+  min-height: 350px;
+  width: 100%;
 }

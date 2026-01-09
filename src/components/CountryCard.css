@@ -2,21 +2,29 @@
 
 .country-card {
   background-color: #fff;
-  border-radius: 8px; /* Slightly smaller radius */
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.09); /* Adjusted shadow */
-  padding: 0; /* Remove padding, apply to faces */
-  margin: 6px; /* Adjusted margin */
-  width: 100px; /* Significantly thinner */
-  min-height: 150px; /* Adjust height as needed */
+  border-radius: 8px;
+  /* Slightly smaller radius */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.09);
+  /* Adjusted shadow */
+  padding: 0;
+  /* Remove padding, apply to faces */
+  margin: 6px;
+  /* Adjusted margin */
+  width: 100px;
+  /* Significantly thinner */
+  min-height: 150px;
+  /* Adjust height as needed */
   text-align: center;
-  display: flex; /* Keep flex */
+  display: flex;
+  /* Keep flex */
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
   cursor: default;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   perspective: 1000px;
-  overflow: hidden; /* Hide overflowing parts of flag/content */
+  overflow: hidden;
+  /* Hide overflowing parts of flag/content */
 }
 
 /* Add cursor pointer for clickable/flippable cards */
@@ -31,51 +39,67 @@
 }
 
 .country-flag {
-  width: 100%; /* Full width */
-  height: 50px; /* Approx 1/3rd of 150px height */
-  object-fit: cover; /* Cover the area, might crop */
+  width: 100%;
+  /* Full width */
+  height: 80px;
+  /* Increased from 50px for better visibility */
+  object-fit: cover;
+  /* Cover the area */
   display: block;
-  margin: 0 0 10px 0; /* Remove horizontal/top margin, add bottom margin */
-  border: none; /* Remove border */
-  border-bottom: 1px solid #eee; /* Optional separator */
-  border-radius: 8px 8px 0 0; /* Round top corners only */
+  margin: 0;
+  /* Remove all margins */
+  border: none;
+  /* Remove border */
+  border-bottom: 1px solid #eee;
+  /* Optional separator */
+  border-radius: 8px 8px 0 0;
+  /* Round top corners only */
 }
 
 .country-info {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center vertically in remaining space */
-  padding: 0 10px 10px 10px; /* Add padding below flag */
-  text-align: center; /* Center text */
+  justify-content: center;
+  /* Center vertically in remaining space */
+  padding: 0 10px 10px 10px;
+  /* Add padding below flag */
+  text-align: center;
+  /* Center text */
 }
 
 .country-name {
-  font-size: 0.85rem; /* Adjust size for thinner card */
+  font-size: 0.85rem;
+  /* Adjust size for thinner card */
   font-weight: 600;
   margin: 0;
   color: #333;
   line-height: 1.2;
-  word-wrap: break-word; /* Allow long names to wrap */
+  word-wrap: break-word;
+  /* Allow long names to wrap */
 }
 
 .country-detail {
-  font-size: 0.75rem; /* Adjust size */
+  font-size: 0.75rem;
+  /* Adjust size */
   color: #555;
   margin-top: 5px;
 }
 
 /* Highlight Styles */
 .country-card.highlighted-incorrect {
-  border: 2px solid #dc3545; /* Red border for incorrect */
+  border: 2px solid #dc3545;
+  /* Red border for incorrect */
 }
 
 .country-card.highlighted-correct {
-  border: 2px solid #28a745; /* Green border for correct */
+  border: 2px solid #28a745;
+  /* Green border for correct */
 }
 
 .country-card.selected-for-placing {
-  outline: 3px solid #007bff; /* Blue outline when selected */
+  outline: 3px solid #007bff;
+  /* Blue outline when selected */
   outline-offset: 2px;
 }
 
@@ -107,12 +131,17 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   background-color: #fff;
-  border-radius: 8px; /* Match card radius */
+  border-radius: 8px;
+  /* Match card radius */
   display: flex;
-  flex-direction: column; /* Stack flag and info */
-  align-items: center; /* Center items horizontally */
-  justify-content: flex-start; /* Align to top */
-  padding: 0; /* Remove padding here, handled by flag/info */
+  flex-direction: column;
+  /* Stack flag and info */
+  align-items: center;
+  /* Center items horizontally */
+  justify-content: flex-start;
+  /* Align to top */
+  padding: 0;
+  /* Remove padding here, handled by flag/info */
   box-sizing: border-box;
 }
 
@@ -123,51 +152,64 @@
 .card-back {
   transform: rotateY(180deg);
   color: #333;
-  justify-content: center; /* Center back content better */
+  justify-content: center;
+  /* Center back content better */
 }
 
 /* Ensure flag/info structure is maintained on back */
 .card-back .country-flag {
-    /* Keep flag style */
+  /* Keep flag style */
 }
+
 .card-back .country-info {
-    /* Keep info style */
-    padding-top: 10px; /* Add padding if flag isn't shown on back */
+  /* Keep info style */
+  padding-top: 10px;
+  /* Add padding if flag isn't shown on back */
 }
+
 .card-back .country-name {
-   /* Keep name style */
+  /* Keep name style */
 }
 
 /* --- End Flip Animation CSS --- */
 
 /* Add styles for highlighted cards */
 .card-face.highlighted-incorrect {
-  background-color: #f8d7da; /* Light red background */
-  border: 2px solid #f5c6cb; /* Light red border */
+  background-color: #f8d7da;
+  /* Light red background */
+  border: 2px solid #f5c6cb;
+  /* Light red border */
 }
 
 .card-face.highlighted-incorrect .country-name,
 .card-face.highlighted-incorrect .country-detail {
-  color: #721c24; /* Dark red text */
+  color: #721c24;
+  /* Dark red text */
 }
 
 /* Correct Highlight Styles */
 .card-face.highlighted-correct {
-  background-color: #d4edda; /* Light green background */
-  border: 2px solid #c3e6cb; /* Light green border */
+  background-color: #d4edda;
+  /* Light green background */
+  border: 2px solid #c3e6cb;
+  /* Light green border */
 }
 
 .card-face.highlighted-correct .country-name,
 .card-face.highlighted-correct .country-detail {
-  color: #155724; /* Dark green text */
+  color: #155724;
+  /* Dark green text */
 }
 
 /* Style for the card selected for placement in Cooperation Mode */
 .country-card.selected-for-placing .card-front,
 .country-card.selected-for-placing .card-back {
-  background-color: #d4edda !important; /* Light green background */
-  border: 1px solid #c3e6cb !important; /* Subtle border */
-  box-shadow: 0 0 10px rgba(40, 167, 69, 0.3) !important; /* Subtle glow */
+  background-color: #d4edda !important;
+  /* Light green background */
+  border: 1px solid #c3e6cb !important;
+  /* Subtle border */
+  box-shadow: 0 0 10px rgba(40, 167, 69, 0.3) !important;
+  /* Subtle glow */
   /* Keep other face styles like radius if needed */
 }
 
@@ -178,16 +220,20 @@
     min-height: 130px;
     margin: 4px;
   }
+
   .country-flag {
     height: 45px;
     margin-bottom: 8px;
   }
+
   .country-info {
-     padding: 0 8px 8px 8px;
+    padding: 0 8px 8px 8px;
   }
+
   .country-name {
     font-size: 0.8rem;
   }
+
   .country-detail {
     font-size: 0.7rem;
   }
@@ -199,16 +245,20 @@
     min-height: 120px;
     margin: 3px;
   }
+
   .country-flag {
     height: 40px;
     margin-bottom: 6px;
   }
+
   .country-info {
-     padding: 0 6px 6px 6px;
+    padding: 0 6px 6px 6px;
   }
+
   .country-name {
     font-size: 0.7rem;
   }
+
   .country-detail {
     font-size: 0.65rem;
   }

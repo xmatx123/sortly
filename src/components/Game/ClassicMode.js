@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom'; // Removed useLocation
 import { fetchCountries } from '../../api/countriesApi'; // Adjusted path
 import CountryCard from '../CountryCard'; // Adjusted path
+import { DraggableCard, DropZone } from './DragComponents';
 import { capitalize } from '../../utils/stringUtils'; // Import from the new utility file
 import '../../pages/GamePage.css'; // Adjusted path, consider a dedicated CSS?
 
@@ -160,17 +161,15 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
       <div className="sorted-countries-container">
 
         <div className="sorted-countries">
-          {/* Use button for placement start */}
+          {/* Initial Drop Zone at the start */}
           {currentCountry && gameStatus === 'placing' && (
-            <button
-              className="place-button plus-button"
-              onClick={() => handlePlaceCountry(0)}
-              aria-label="Place card at the beginning"
-              title={`Place ${currentCountry.name} at the beginning`}
-            >
-              +
-            </button>
+            <DropZone
+              index={0}
+              onDrop={(idx) => handlePlaceCountry(idx)}
+              isEmpty={sortedCountries.length === 0}
+            />
           )}
+
           {sortedCountries.map((country, index) => (
             <React.Fragment key={`fragment-${country.id}`}>
               <CountryCard
@@ -180,46 +179,30 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
                 isFlippable={true}
                 isClickable={false}
               />
-              {/* Use button for placement between */}
+              {/* Drop Zone after each card */}
               {currentCountry && gameStatus === 'placing' && (
-                <button
-                  className="place-button plus-button"
-                  onClick={() => handlePlaceCountry(index + 1)}
-                  aria-label={`Place card after ${country.name}`}
-                  title={`Place ${currentCountry.name} after ${country.name}`}
-                >
-                  +
-                </button>
+                <DropZone
+                  index={index + 1}
+                  onDrop={(idx) => handlePlaceCountry(idx)}
+                />
               )}
             </React.Fragment>
           ))}
-          {/* If sortedCountries is empty and the player can place, show an initial place button */}
-          {sortedCountries.length === 0 && currentCountry && gameStatus === 'placing' && (
-            <button
-              className="place-button plus-button"
-              onClick={() => handlePlaceCountry(0)}
-              aria-label="Place first card"
-              title={`Place ${currentCountry.name} at the beginning`}
-            >
-              +
-            </button>
-          )}
         </div>
       </div>
 
       {gameStatus === 'placing' && currentCountry && (
         <div className="current-country">
-          <h3>Place this Country:</h3>
+          <h3>Drag this Country to Place It:</h3>
           <div
             className="current-country-wrapper"
-            title={`${currentCountry.name} - place it in the list above`}
+            title={`${currentCountry.name} - drag me!`}
+            style={{ maxWidth: '220px', margin: '0 auto' }}
           >
-            <CountryCard
+            <DraggableCard
               country={currentCountry}
               mode={category}
               statisticValue={currentCountry[category]}
-              isFlippable={false}
-              isClickable={false}
             />
           </div>
         </div>
