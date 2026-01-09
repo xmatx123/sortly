@@ -103,7 +103,7 @@ function LeaderboardPage() {
                     <td>{index + 1}</td>
                     <td>{entry.playerName}</td>
                     <td>{entry.score}</td>
-                    <td>{formatDate(entry.date)}</td>
+                    <td>{formatDate(entry.timestamp || entry.date)}</td>
                     <td className="leaderboard-flags">
                       {entry.details && entry.details.mode === 'classic' ? (
                         <>
