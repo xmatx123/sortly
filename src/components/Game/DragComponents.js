@@ -25,7 +25,8 @@ export const DraggableCard = ({ country, mode, statisticValue }) => {
                 maxWidth: '220px', // Match existing card width roughly
                 display: 'flex', // Enable flex
                 justifyContent: 'center', // Center content horizontally
-                alignItems: 'center' // Center content vertically
+                alignItems: 'center', // Center content vertically
+                touchAction: 'none' // Prevent scrolling while dragging on touch devices
             }}
         >
             <CountryCard

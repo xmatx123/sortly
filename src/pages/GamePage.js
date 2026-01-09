@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { useParams, Navigate, useLocation } from 'react-router-dom';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import SEO from '../components/SEO';
 
 // Import the reusable game mode components
@@ -66,9 +64,7 @@ function UnifiedGamePage() {
         description={`Play Sortly: Sort countries by ${category} in ${mode} mode.`}
       />
       {/* This container can hold styles common to all game pages */}
-      <DndProvider backend={HTML5Backend}>
-        {renderGameMode()}
-      </DndProvider>
+      {renderGameMode()}
     </div>
   );
 }
