@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getTopScores } from '../api/leaderboardApi'; // Using localStorage API for now
+import { leaderboardService } from '../services/leaderboardService'; // Use global Firestore service
 import { gameHistoryService } from '../services/gameHistoryService'; // Needed to fetch details
 import SEO from '../components/SEO';
-// We'll use the history service later for clicking, but leaderboardApi for display
-// import { gameHistoryService } from '../services/gameHistoryService';
 import { formatDate } from '../utils/dateUtils';
 import { capitalize } from '../utils/stringUtils'; // Corrected import path
 import './LeaderboardPage.css';
@@ -25,8 +23,8 @@ function LeaderboardPage() {
       const fetchedLeaderboards = {};
       try {
         for (const category of CLASSIC_CATEGORIES) {
-          // 1. Fetch top scores (basic info + gameHistoryId)
-          const topScores = getTopScores(category, 5);
+          // 1. Fetch top scores (basic info + gameHistoryId) from Global Firestore Service
+          const topScores = await leaderboardService.getTopScores(category, 5);
 
           // 2. Fetch details for each score that has a gameHistoryId
           const enrichedScores = await Promise.all(

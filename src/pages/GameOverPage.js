@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CountryCard from '../components/CountryCard';
-import { submitScore as submitScoreLocal } from '../api/leaderboardApi'; // Renaming local just in case we need fallback
+// import { submitScore as submitScoreLocal } from '../api/leaderboardApi'; // Removed unused local import
 import { leaderboardService } from '../services/leaderboardService';
 import { achievementsService } from '../services/achievementsService';
 import { gameHistoryService } from '../services/gameHistoryService';
