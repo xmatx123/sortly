@@ -3,28 +3,46 @@
 .country-card {
   background-color: #fff;
   border-radius: 8px;
-  /* Slightly smaller radius */
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.09);
-  /* Adjusted shadow */
   padding: 0;
-  /* Remove padding, apply to faces */
-  margin: 6px;
-  /* Adjusted margin */
-  width: 100px;
-  /* Significantly thinner */
-  min-height: 150px;
-  /* Adjust height as needed */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.09);
+  padding: 0;
+  margin: 0;
+  margin-right: 10px;
+  /* Default: No overlap, small gap */
+  width: 140px;
+  /* Fixed width for readability */
+  min-width: 140px;
+  /* Force minimum width to prevent crushing */
+  height: 200px;
+  /* Fixed height */
   text-align: center;
   display: flex;
-  /* Keep flex */
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
   cursor: default;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: margin 0.3s ease, box-shadow 0.2s ease, transform 0.2s ease;
   perspective: 1000px;
   overflow: hidden;
-  /* Hide overflowing parts of flag/content */
+  flex-shrink: 0;
+  z-index: 1;
+  /* Default z-index */
+}
+
+/* Conditional Overlap: Applied when parent has 'overlapped' class */
+.sorted-countries.overlapped .country-card {
+  margin-right: -100px;
+}
+
+/* On hover (optional) or selection, maybe pop it up? */
+.country-card:hover {
+  z-index: 15;
+  /* Bring to front on hover if desired */
+}
+
+.country-card:last-child {
+  margin-right: 0;
 }
 
 /* Add cursor pointer for clickable/flippable cards */
@@ -38,22 +56,18 @@
   transform: scale(1.03);
 }
 
-.country-flag {
+.country-card .country-flag {
   width: 100%;
-  /* Full width */
-  height: 80px;
-  /* Increased from 50px for better visibility */
+  height: 90px;
   object-fit: cover;
-  /* Cover the area */
   display: block;
   margin: 0;
-  /* Remove all margins */
+  padding: 0;
   border: none;
-  /* Remove border */
-  border-bottom: 1px solid #eee;
-  /* Optional separator */
+  border-bottom: 1px solid #f0f0f0;
   border-radius: 8px 8px 0 0;
-  /* Round top corners only */
+  transform: scale(1.02);
+  /* Slight zoom to prevent sub-pixel gaps */
 }
 
 .country-info {
@@ -213,53 +227,16 @@
   /* Keep other face styles like radius if needed */
 }
 
-/* Responsive Design */
+/* Responsive Design - Adjustments for smaller screens if needed, but KEEP WIDTH */
 @media (max-width: 768px) {
+
+  /* We might want slightly smaller but still readable on very small phones?
+     Actually, let's keep them 140px for now as per "Full Width" requirement.
+     If 140px is too big, maybe 120px, but 75px was definitely too small.
+  */
   .country-card {
-    width: 85px;
-    min-height: 130px;
-    margin: 4px;
-  }
-
-  .country-flag {
-    height: 45px;
-    margin-bottom: 8px;
-  }
-
-  .country-info {
-    padding: 0 8px 8px 8px;
-  }
-
-  .country-name {
-    font-size: 0.8rem;
-  }
-
-  .country-detail {
-    font-size: 0.7rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .country-card {
-    width: 75px;
-    min-height: 120px;
-    margin: 3px;
-  }
-
-  .country-flag {
-    height: 40px;
-    margin-bottom: 6px;
-  }
-
-  .country-info {
-    padding: 0 6px 6px 6px;
-  }
-
-  .country-name {
-    font-size: 0.7rem;
-  }
-
-  .country-detail {
-    font-size: 0.65rem;
+    /* Optional: slightly smaller strictly for very narrow devices if needed */
+    /* width: 130px; */
+    /* min-width: 130px; */
   }
 }

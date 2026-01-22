@@ -56,20 +56,7 @@
   text-align: center;
 }
 
-.sorted-countries {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 1.5rem;
-  background: #e9ecef;
-  border-radius: 10px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
-  min-height: 180px;
-  width: 100%;
-  box-sizing: border-box;
-}
+/* Consolidated into lower definition */
 
 .insert-buttons {
   display: none;
@@ -238,62 +225,82 @@
 }
 
 /* Drop Zone Styles */
+/* Ensure the sorted list can scroll/flex properly */
+.sorted-countries {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  /* FIX: Center items so first card is in middle */
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 40px;
+  min-height: 250px;
+  width: 100%;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* When Overlapped: Lock scrolling and center stack */
+/* When Overlapped: Lock scrolling and center stack */
+.sorted-countries.overlapped {
+  justify-content: center;
+  /* Center the stack on screen */
+  overflow-x: hidden;
+  /* Disable scrolling to enforce 'Stack' feel */
+  padding-left: 100px;
+  /* Offset to center the overlapped stack nicely if needed, or rely on center */
+  padding-right: 100px;
+}
+
+.sorted-countries::-webkit-scrollbar {
+  display: none;
+}
+
+
 /* Drop Zone Styles */
 .drop-zone {
-  width: 60px;
-  /* Increased hit area from 20px */
-  height: 300px;
-  /* Match card height */
-  margin: 0 -20px;
-  /* Negative margin to overlap/keep visual gap small */
+  width: 50px;
+  /* Bigger drop zone for better UX */
+  height: 200px;
+  /* Match approximate card height */
+  margin: 0;
   background-color: transparent;
-  transition: all 0.2s ease;
+  transition: width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s;
+  /* Smooth expansion */
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   z-index: 10;
-  /* Ensure it's on top */
   position: relative;
 }
 
+/* Hover effect for sliding gap */
+.drop-zone:hover,
 .drop-zone.active-drop {
-  width: 160px;
-  /* Visual expansion */
-  margin: 0 5px;
-  /* Reset margin so it takes up real space */
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 2px dashed rgba(255, 255, 255, 0.6);
-  z-index: 5;
+  width: 140px;
+  /* Expand on hover to create gap */
+  margin: 0 10px;
+  background-color: rgba(0, 123, 255, 0.05);
 }
 
+.drop-zone.active-drop {
+  border: 2px dashed rgba(0, 123, 255, 0.4);
+}
+
+/* Initial empty drop zone can be larger */
 .drop-zone.empty-drop {
-  width: 220px;
-  margin: 0;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 2px dashed rgba(255, 255, 255, 0.3);
+  width: 200px;
+  border: 2px dashed #bbb;
+  background-color: #f8f9fa;
 }
 
 .drop-zone.empty-drop::after {
   content: "Drop Here";
-  color: white;
+  color: #888;
   font-weight: bold;
-}
-
-/* Hide the old buttons just in case, or we replace them in JS */
-.place-button {
-  /* We will remove these from JS, but safe to have */
-}
-
-/* Ensure the sorted list can scroll/flex properly */
-.sorted-countries {
-  display: flex;
-  flex-wrap: nowrap;
-  /* Prevent wrapping for horizontal scroll */
-  align-items: center;
-  overflow-x: auto;
-  padding: 20px;
-  min-height: 350px;
-  width: 100%;
 }

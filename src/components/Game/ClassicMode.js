@@ -16,6 +16,15 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  // Track window width for responsive overlap logic
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   // Removed: const location = useLocation();
   // Removed: const category = location.state?.category || 'population'; 
 
@@ -159,8 +168,10 @@ function ClassicMode({ category = 'population' }) { // Receive category as prop,
 
 
       <div className="sorted-countries-container">
-
-        <div className="sorted-countries">
+        {/* Pass ref to measure width */}
+        <div
+          className={`sorted-countries ${sortedCountries.length * 160 > windowWidth ? 'overlapped' : ''}`}
+        >
           {/* Initial Drop Zone at the start */}
           {currentCountry && gameStatus === 'placing' && (
             <DropZone
